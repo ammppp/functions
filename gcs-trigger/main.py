@@ -21,3 +21,20 @@ def invoke(cloud_event):
     print(f"Metageneration: {metageneration}")
     print(f"Created: {timeCreated}")
     print(f"Updated: {updated}")
+
+    import pandas as pd
+    import pandas_gbq
+    from google.cloud import bigquery, storage
+    import os
+
+    # Initialize clients
+    storage_client = storage.Client()
+    bq_client = bigquery.Client()
+
+    df = pd.read_csv(f"gs://{bucket}/{name}")
+    pandas_gbq.to_gbq(
+        df,
+        "apestel.aaa_aaa_aaa_notebook",
+        project_id=bq_client.project,
+        if_exists="replace"
+    )
