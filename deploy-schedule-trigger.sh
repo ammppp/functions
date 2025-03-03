@@ -3,6 +3,7 @@
 gcloud functions deploy schedule-trigger-function \
     --region="us-central1" \
     --runtime="python312" \
+    --memory="16Gi" \
     --trigger-http \
     --entry-point="invoke" \
     --no-allow-unauthenticated \
