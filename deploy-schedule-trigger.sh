@@ -13,4 +13,5 @@ gcloud scheduler jobs create http schedule-trigger-function \
     --schedule="0 0 * * *" \
     --uri="https://us-central1-apestel.cloudfunctions.net/schedule-trigger-function" \
     --oidc-service-account-email="199375159079-compute@developer.gserviceaccount.com" \
-    --http-method=GET
+    --http-method=POST \
+    --message-body='{"bucket": "apestel", "path": "test-folder/"}'

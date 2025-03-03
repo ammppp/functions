@@ -6,10 +6,26 @@ def invoke(request):
     request_json = request.get_json(silent=True)
     request_args = request.args
 
-    if request_json and 'name' in request_json:
-        name = request_json['name']
-    elif request_args and 'name' in request_args:
-        name = request_args['name']
-    else:
-        name = 'World'
-    return 'Hello {}!'.format(name)
+    bucket = request_json["bucket"]
+    path = request_json["path"]
+
+    storage_client = storage.Client()
+    bq_client = bigquery.Client()
+
+    blobs = storage_client.list_blobs(bucket, prefix=path)
+
+    print("Processing blobs...")
+    for blob in blobs:
+        print(blob)
+
+        #df = pd.read_csv(f"gs://{bucket}/{name}")
+        #pandas_gbq.to_gbq(
+        #    df,
+        #    "apestel.function_loaded_table",
+        #    project_id=bq_client.project,
+        #    if_exists="replace"
+        #)
+
+        print("Loaded table")
+
+    return "Success"
