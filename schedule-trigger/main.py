@@ -21,13 +21,15 @@ def invoke(request):
     for blob in blobs:
         print(blob)
 
-        #df = pd.read_csv(f"gs://{bucket}/{name}")
-        #pandas_gbq.to_gbq(
-        #    df,
-        #    "apestel.function_loaded_table",
-        #    project_id=bq_client.project,
-        #    if_exists="replace"
-        #)
+        table = blob.name.replace("/", "_")
+        table = table.replace(".", "_")
+        df = pd.read_csv(f"gs://{bucket}/{blob.name}")
+        pandas_gbq.to_gbq(
+            df,
+            f"apestel.{table}",
+            project_id=bq_client.project,
+            if_exists="replace"
+        )
 
         print("Loaded table")
 
